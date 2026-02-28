@@ -3,9 +3,11 @@ import { useState } from 'react';
 
 interface WeatherCardProps {
   weather: WeatherData;
+  isFavorite: boolean;
+  onToggleFavorite: () => void;
 }
 
-export function WeatherCard({ weather }: WeatherCardProps) {
+export function WeatherCard({ weather, isFavorite, onToggleFavorite }: WeatherCardProps) {
   const [useCelsius, setUseCelsius] = useState(true);
 
   const temperature = useCelsius ? weather.current.temp_c : weather.current.temp_f;
@@ -15,8 +17,17 @@ export function WeatherCard({ weather }: WeatherCardProps) {
   return (
     <div className="weather-card">
       <div className="weather-header">
-        <h2 className="location-name">{weather.location.name}</h2>
-        <p className="location-country">{weather.location.country}</p>
+        <div>
+          <h2 className="location-name">{weather.location.name}</h2>
+          <p className="location-country">{weather.location.country}</p>
+        </div>
+        <button
+          onClick={onToggleFavorite}
+          className={`favorite-button ${isFavorite ? 'active' : ''}`}
+          title={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+        >
+          ★
+        </button>
       </div>
 
       <div className="weather-main">
